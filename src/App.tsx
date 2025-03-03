@@ -1,10 +1,12 @@
 import "./App.css";
+import PhotosContainer from "./components/photos/photosContainer/PhotosContainer";
 
 function App() {
   return (
-    <>
-      <h1>Academy web homework</h1>
-    </>
+    <main>
+      <h1 className="title">Assignment</h1>
+      <PhotosContainer />
+    </main>
   );
 }
 
