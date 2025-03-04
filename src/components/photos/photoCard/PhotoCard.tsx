@@ -1,13 +1,9 @@
 import { useState } from "react";
 import "./PhotoCard.css";
+import { PhotoCardProps } from "../../../types/photoTypes";
 
-type PhotoCardProps = {
-  title: string;
-  author: string;
-};
-
-const PhotoCard = ({ title, author }: PhotoCardProps) => {
-  const [isPhotoSaved, setIsPhotoSaved] = useState(false);
+const PhotoCard = ({ photo }: PhotoCardProps) => {
+  const [isPhotoSaved] = useState(false);
 
   const handleButton = () => {
     console.log("Favourite button clicked");
@@ -15,11 +11,13 @@ const PhotoCard = ({ title, author }: PhotoCardProps) => {
 
   return (
     <div className="photo-card">
-      <img src="https://picsum.photos/200/300" alt="photo" />
+      <img src={photo.src?.original} alt="photo" />
       <div className="card-details">
-        <p className="photo-title">{title ? title : ""}</p>
+        <p className="photo-title">{photo.alt ? photo.alt : ""}</p>
         <div className="dividing-line"></div>
-        <p className="author">{author ? author : "Unknown"}</p>
+        <p className="author">
+          {photo.photographer ? photo.photographer : "Unknown"}
+        </p>
         <button onClick={handleButton} className="button">
           {isPhotoSaved ? "Remove" : "Favourite"}
         </button>

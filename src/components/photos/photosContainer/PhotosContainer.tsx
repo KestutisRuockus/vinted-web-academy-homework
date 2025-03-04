@@ -1,15 +1,17 @@
-import PhotoCard from "../photoCard/PhotoCard";
 import "./photosContainer.css";
+import PhotoCard from "../photoCard/PhotoCard";
+import { useFetchPhotos } from "../../../hooks/useFetchPhotos";
+import { useState } from "react";
 
 const PhotosContainer = () => {
+  const [page] = useState(1);
+  const { photos } = useFetchPhotos({ pageNumber: page });
+
   return (
     <div className="container">
-      <PhotoCard title="Title" author="Author" />
-      <PhotoCard
-        title="Lorem ipsum dolor sit amet consectetur. Lorem ipsum dolor sit amet consectetur. Lorem ipsum dolor sit amet consectetur."
-        author="Tom Tommity"
-      />
-      <PhotoCard title="" author="" />
+      {photos.map((photo) => (
+        <PhotoCard key={photo.id} photo={photo} />
+      ))}
     </div>
   );
 };
