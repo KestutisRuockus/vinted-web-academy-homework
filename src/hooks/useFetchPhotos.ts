@@ -3,10 +3,12 @@ import { Photo } from "../types/photoTypes";
 
 export const useFetchPhotos = ({ pageNumber }: { pageNumber: number }) => {
   const [photos, setPhotos] = useState<Photo[]>([]);
+  const [loading, setLoading] = useState(false);
   const API_KEY = import.meta.env.VITE_PEXELS_API_KEY;
   const itemsPerpage = 10;
 
   const fetchPhotos = useCallback(async () => {
+    setLoading(true);
     try {
       const response = await fetch(
         `https://api.pexels.com/v1/curated?page=${pageNumber}&per_page=${itemsPerpage}}`,
@@ -25,6 +27,8 @@ export const useFetchPhotos = ({ pageNumber }: { pageNumber: number }) => {
       setPhotos((prevPhotos) => [...prevPhotos, ...data.photos]);
     } catch (error) {
       console.error("Error fetching photos:", error);
+    } finally {
+      setLoading(false);
     }
   }, [API_KEY, pageNumber]);
 
@@ -32,5 +36,5 @@ export const useFetchPhotos = ({ pageNumber }: { pageNumber: number }) => {
     fetchPhotos();
   }, [fetchPhotos]);
 
-  return { photos };
+  return { photos, loading };
 };
