@@ -1,0 +1,50 @@
+.loading-message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: white;
+  letter-spacing: 3px;
+}
+
+.loading-message-animation {
+  animation: text-loading 1s linear infinite alternate;
+}
+
+@keyframes text-loading {
+  0% {
+    color: hsl(0, 0%, 100%);
+  }
+  100% {
+    color: hsl(0, 0%, 0%);
+  }
+}
+
+.image-loading-animation {
+  animation: img-loading 1s linear infinite alternate;
+}
+
+@keyframes img-loading {
+  0% {
+    background-color: hsl(200, 20%, 70%);
+  }
+  100% {
+    background-color: hsl(200, 20%, 95%);
+  }
+}
+
+@media (max-width: 768px) {
+  .photo-card .photo-card button {
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 425px) {
+  .photo-card .photo-card button {
+    margin-top: 0;
+    margin-bottom: 8px;
+    padding: 4px 8px;
+  }
+}
