@@ -1,6 +1,7 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { navLinks } from "../../constants/navLinks";
 import "./navbar.css";
+import { ActivePage } from "../../types/types";
 
 const HamburgerIconComponent = () => {
   return (
@@ -42,7 +43,11 @@ const CloseIconComponent = () => {
   );
 };
 
-const Navbar = () => {
+const Navbar = ({
+  setActivePage,
+}: {
+  setActivePage: React.Dispatch<React.SetStateAction<ActivePage>>;
+}) => {
   const [open, setOpen] = useState(false);
   return (
     <nav>
@@ -53,7 +58,12 @@ const Navbar = () => {
       />
       <ul className={open ? "open" : ""}>
         {navLinks.map((navLink) => (
-          <li key={navLink.name}>{navLink.name}</li>
+          <li
+            key={navLink.name}
+            onClick={() => setActivePage(navLink.component)}
+          >
+            {navLink.name}
+          </li>
         ))}
       </ul>
       <div className="icons" onClick={() => setOpen(!open)}>

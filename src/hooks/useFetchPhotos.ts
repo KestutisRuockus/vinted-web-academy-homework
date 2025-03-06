@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { Photo } from "../types/photoTypes";
+import { Photo } from "../types/types";
 
 export const useFetchPhotos = ({ pageNumber }: { pageNumber: number }) => {
   const [photos, setPhotos] = useState<Photo[]>([]);

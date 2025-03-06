@@ -1,11 +1,13 @@
+export type ActivePage = "photos" | "favourite";
+
 export type Photo = {
   id: number;
-  url: string;
+  url?: string;
   photographer: string;
-  photographer_url: string;
-  photographer_id: number;
+  photographer_url?: string;
+  photographer_id?: number;
   avg_color: string;
-  src: {
+  src?: {
     original: string;
     large2x: string;
     large: string;
@@ -20,4 +22,11 @@ export type Photo = {
 
 export type PhotoCardProps = {
   photo: Photo;
+};
+
+export type FavouritePhotoCard = {
+  alt: string;
+  avg_color: string;
+  id: number;
+  photographer: string;
 };

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./PhotoCard.css";
-import { PhotoCardProps } from "../../../types/photoTypes";
+import { PhotoCardProps } from "../../../types/types";
 import SkeletonPhotoCard from "../skeletonPhotoCard/SkeletonPhotoCard";
 
 const PhotoCard = ({ photo }: PhotoCardProps) => {
@@ -54,16 +54,17 @@ const PhotoCard = ({ photo }: PhotoCardProps) => {
     ) {
       setIsFavourited(true);
     }
+    setLoading(false);
   }, [photo.id]);
 
   return (
     <div className="photo-card">
       {loading && <SkeletonPhotoCard />}
       <img
-        src={photo.src.original}
+        src={photo.src?.original || ""}
         alt={photo.alt || "photo"}
         loading="lazy"
-        srcSet={`${photo.src?.landscape} 1200w, ${photo.src.large} 600w, ${photo.src.small} 360w`}
+        srcSet={`${photo.src?.landscape} 1200w, ${photo.src?.large} 600w, ${photo.src?.small} 360w`}
         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         onLoad={() => setLoading(false)}
         style={{ backgroundColor: photo.avg_color }}
