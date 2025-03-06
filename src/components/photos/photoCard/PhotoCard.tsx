@@ -1,16 +1,60 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./PhotoCard.css";
 import { PhotoCardProps } from "../../../types/photoTypes";
 import SkeletonPhotoCard from "../skeletonPhotoCard/SkeletonPhotoCard";
 
 const PhotoCard = ({ photo }: PhotoCardProps) => {
-  console.log(photo.avg_color);
-  const [isPhotoSaved] = useState(false);
+  const [isFavourited, setIsFavourited] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const handleButton = () => {
-    console.log("Favourite button clicked");
+  const loadFromLocalStorage = () => {
+    const favouritePhotos = JSON.parse(
+      localStorage.getItem("favourite-photos") || "[]"
+    );
+    return favouritePhotos;
   };
+
+  const saveToLocalStorage = () => {
+    const photoObj = {
+      id: photo.id,
+      alt: photo.alt,
+      photographer: photo.photographer,
+      avg_color: photo.avg_color,
+    };
+
+    const favouritePhotos = loadFromLocalStorage();
+    favouritePhotos.push(photoObj);
+
+    localStorage.setItem("favourite-photos", JSON.stringify(favouritePhotos));
+  };
+
+  const removeFromLocalStorage = (photoId: number) => {
+    const favouritePhotos = loadFromLocalStorage();
+    const updatedPhotos = favouritePhotos.filter(
+      (photo: { id: string }) => Number(photo.id) !== photoId
+    );
+    localStorage.setItem("favourite-photos", JSON.stringify(updatedPhotos));
+  };
+
+  const toggleFavourite = () => {
+    if (isFavourited) {
+      removeFromLocalStorage(photo.id);
+    } else {
+      saveToLocalStorage();
+    }
+    setIsFavourited(!isFavourited);
+  };
+
+  useEffect(() => {
+    const favouritePhotos = loadFromLocalStorage();
+    if (
+      favouritePhotos.some(
+        (favPhoto: { id: string }) => Number(favPhoto.id) === photo.id
+      )
+    ) {
+      setIsFavourited(true);
+    }
+  }, [photo.id]);
 
   return (
     <div className="photo-card">
@@ -28,8 +72,8 @@ const PhotoCard = ({ photo }: PhotoCardProps) => {
         <p className="photo-title">{photo.alt || ""}</p>
         <div className="dividing-line"></div>
         <p className="author">{photo.photographer || "Unknown"}</p>
-        <button onClick={handleButton} className="button">
-          {isPhotoSaved ? "Remove" : "Favourite"}
+        <button onClick={toggleFavourite} className="button">
+          {isFavourited ? "Remove" : "Favourite"}
         </button>
       </div>
     </div>
