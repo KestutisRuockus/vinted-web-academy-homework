@@ -4,6 +4,7 @@ import { PhotoCardProps } from "../../../types/photoTypes";
 import SkeletonPhotoCard from "../skeletonPhotoCard/SkeletonPhotoCard";
 
 const PhotoCard = ({ photo }: PhotoCardProps) => {
+  console.log(photo.avg_color);
   const [isPhotoSaved] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -21,6 +22,7 @@ const PhotoCard = ({ photo }: PhotoCardProps) => {
         srcSet={`${photo.src?.landscape} 1200w, ${photo.src.large} 600w, ${photo.src.small} 360w`}
         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         onLoad={() => setLoading(false)}
+        style={{ backgroundColor: photo.avg_color }}
       />
       <div className="card-details">
         <p className="photo-title">{photo.alt || ""}</p>

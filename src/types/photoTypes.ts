@@ -4,7 +4,7 @@ export type Photo = {
   photographer: string;
   photographer_url: string;
   photographer_id: number;
-  avg_colors: string;
+  avg_color: string;
   src: {
     original: string;
     large2x: string;

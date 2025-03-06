@@ -1,12 +1,12 @@
 import "./App.css";
 import PhotosContainer from "./components/photos/photosContainer/PhotosContainer";
+import AppLayout from "./layouts/AppLayout";
 
 function App() {
   return (
-    <main>
-      <h1 className="title">Assignment</h1>
+    <AppLayout>
       <PhotosContainer />
-    </main>
+    </AppLayout>
   );
 }
 
