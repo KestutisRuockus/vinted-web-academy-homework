@@ -1,4 +1,4 @@
-export type ActivePage = "photos" | "favourite";
+export type ActivePage = "photos" | "favourite" | "videos";
 
 export type Photo = {
   id: number;
@@ -23,4 +23,24 @@ export type Photo = {
 export type PhotoCardProps = {
   photo: Photo;
   onRemove?: (id: number) => void;
+};
+
+export type Video = {
+  id: number;
+  duration: number;
+  image: string;
+  video_files: VideoFiles[];
+  video_pictures: VideoPictures;
+};
+
+type VideoFiles = {
+  id: number;
+  link: string;
+  file_type: string;
+};
+
+type VideoPictures = {
+  id: number;
+  nr: number;
+  picture: string;
 };
