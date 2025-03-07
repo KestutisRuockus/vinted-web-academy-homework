@@ -3,7 +3,7 @@ import "./PhotoCard.css";
 import { PhotoCardProps } from "../../../types/types";
 import SkeletonPhotoCard from "../skeletonPhotoCard/SkeletonPhotoCard";
 
-const PhotoCard = ({ photo }: PhotoCardProps) => {
+const PhotoCard = ({ photo, onRemove }: PhotoCardProps) => {
   const [isFavourited, setIsFavourited] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -17,8 +17,6 @@ const PhotoCard = ({ photo }: PhotoCardProps) => {
   const saveToLocalStorage = () => {
     const photoObj = {
       id: photo.id,
-      alt: photo.alt,
-      photographer: photo.photographer,
       avg_color: photo.avg_color,
     };
 
@@ -39,6 +37,7 @@ const PhotoCard = ({ photo }: PhotoCardProps) => {
   const toggleFavourite = () => {
     if (isFavourited) {
       removeFromLocalStorage(photo.id);
+      onRemove?.(photo.id);
     } else {
       saveToLocalStorage();
     }

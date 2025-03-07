@@ -31,12 +31,32 @@ const FavouriteContainer = () => {
 
     setFavouritePhotos(photoFromLocalStorage);
   }, []);
+
+  const handleUnfavouritePhoto = (photoId: number) => {
+    const updatedPhotos = favouritePhotos.filter(
+      (photo) => Number(photo.id) !== photoId
+    );
+    setFavouritePhotos(updatedPhotos);
+
+    const saveOnlyIDsToLocalStorageList = updatedPhotos.map((photo) => ({
+      id: photo.id,
+      avg_color: photo.avg_color,
+    }));
+    localStorage.setItem(
+      "favourite-photos",
+      JSON.stringify(saveOnlyIDsToLocalStorageList)
+    );
+  };
+
   return (
     <div className="container">
       {favouritePhotos.map((photo) => (
-        <PhotoCard key={photo.id} photo={photo} />
+        <PhotoCard
+          key={photo.id}
+          photo={photo}
+          onRemove={handleUnfavouritePhoto}
+        />
       ))}
-      ssmth
     </div>
   );
 };

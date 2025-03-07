@@ -22,11 +22,5 @@ export type Photo = {
 
 export type PhotoCardProps = {
   photo: Photo;
-};
-
-export type FavouritePhotoCard = {
-  alt: string;
-  avg_color: string;
-  id: number;
-  photographer: string;
+  onRemove?: (id: number) => void;
 };
