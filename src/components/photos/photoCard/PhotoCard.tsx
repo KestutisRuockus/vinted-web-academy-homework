@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./PhotoCard.css";
 import { PhotoCardProps } from "../../../types/types";
-import SkeletonPhotoCard from "../skeletonPhotoCard/SkeletonPhotoCard";
+import SkeletonPhotoCard from "../../skeletonCard/SkeletonCard";
 
 const PhotoCard = ({ photo, onRemove }: PhotoCardProps) => {
   const [isFavourited, setIsFavourited] = useState(false);
@@ -18,6 +18,7 @@ const PhotoCard = ({ photo, onRemove }: PhotoCardProps) => {
     const photoObj = {
       id: photo.id,
       avg_color: photo.avg_color,
+      type: "photo",
     };
 
     const favouritePhotos = loadFromLocalStorage();

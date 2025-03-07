@@ -33,10 +33,16 @@ export type Video = {
   video_pictures: VideoPictures;
 };
 
+export type VideoCardProps = {
+  video: Video;
+  onRemove?: (id: number) => void;
+};
+
 type VideoFiles = {
   id: number;
   link: string;
   file_type: string;
+  width: number;
 };
 
 type VideoPictures = {
