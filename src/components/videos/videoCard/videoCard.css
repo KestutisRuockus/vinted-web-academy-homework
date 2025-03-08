@@ -35,7 +35,8 @@
   transition: opacity 0.3s ease;
 }
 
-.video-card:hover .play-button {
+.video-card:hover .play-button,
+.video-card:hover .video-button {
   opacity: 1;
 }
 
@@ -59,6 +60,8 @@
   transition: all 0.3s;
   font-size: 0.8rem;
   margin-top: 12px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .video-button:hover {
