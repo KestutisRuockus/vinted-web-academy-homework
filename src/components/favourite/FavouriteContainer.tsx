@@ -13,6 +13,7 @@ const FavouriteContainer = () => {
     const photoFromLocalStorage = JSON.parse(
       localStorage.getItem("favourite-photos") || "[]"
     );
+
     const videosFromLocalStorage = JSON.parse(
       localStorage.getItem("favourite-videos") || "[]"
     );
@@ -50,8 +51,6 @@ const FavouriteContainer = () => {
 
     fetchPhotos();
     fetchVideos();
-
-    setFavouritePhotos(photoFromLocalStorage);
   }, []);
 
   const handleUnfavouritePhoto = (photoId: number) => {

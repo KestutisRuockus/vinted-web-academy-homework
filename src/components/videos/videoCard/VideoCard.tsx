@@ -76,11 +76,13 @@ const VideoCard = ({ video, onRemove }: VideoCardProps) => {
     <div className="video-card" onClick={handlePlayPauseClick}>
       {loading && <SkeletonPhotoCard />}
       <video
+        preload="none"
         ref={videoRef}
         autoPlay={false}
         loop={true}
         muted={false}
         controls={false}
+        poster={video.image}
       >
         <source
           src={video.video_files[0].link}

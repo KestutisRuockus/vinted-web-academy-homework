@@ -3,10 +3,20 @@ import PhotoCard from "../photoCard/PhotoCard";
 import { useFetchPhotos } from "../../../hooks/useFetchPhotos";
 import { useEffect, useState } from "react";
 import { useElementOnScreen } from "../../../hooks/useElementOnScreen";
+import SearchInput from "../../seacrh/SearchInput";
 
-const PhotosContainer = () => {
+const PhotosContainer = ({
+  query,
+  setQuery,
+}: {
+  query: string;
+  setQuery: React.Dispatch<React.SetStateAction<string>>;
+}) => {
   const [page, setPage] = useState(1);
-  const { photos, loading } = useFetchPhotos({ pageNumber: page });
+  const { photos, loading, hasMore } = useFetchPhotos({
+    pageNumber: page,
+    query,
+  });
 
   const [laodMoreRef, isVisible] = useElementOnScreen({
     root: null,
@@ -15,19 +25,26 @@ const PhotosContainer = () => {
   });
 
   useEffect(() => {
-    if (isVisible) {
+    setPage(1);
+  }, [query]);
+
+  useEffect(() => {
+    if (isVisible && hasMore) {
       setPage((prevPage) => prevPage + 1);
     }
-  }, [isVisible]);
+  }, [isVisible, hasMore]);
 
   return (
-    <div className="container">
-      {photos.map((photo) => (
-        <PhotoCard key={photo.id} photo={photo} />
-      ))}
-      {loading && <div>Loading...</div>}
-      <div ref={laodMoreRef}></div>
-    </div>
+    <>
+      <SearchInput onSearch={setQuery} />
+      <div className="container">
+        {photos.map((photo) => (
+          <PhotoCard key={photo.id} photo={photo} />
+        ))}
+        {loading && <div>Loading...</div>}
+        <div ref={laodMoreRef}></div>
+      </div>
+    </>
   );
 };
 

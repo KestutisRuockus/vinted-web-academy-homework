@@ -50,3 +50,7 @@ type VideoPictures = {
   nr: number;
   picture: string;
 };
+
+export type SearchInputProps = {
+  onSearch: (query: string) => void;
+};

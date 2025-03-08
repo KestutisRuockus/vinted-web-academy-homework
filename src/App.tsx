@@ -8,11 +8,21 @@ import VideosContainer from "./components/videos/videosContainer/VideosContainer
 
 function App() {
   const [activePage, setActivePage] = useState<ActivePage>("photos");
+  const [query, setQuery] = useState<string>("");
+
+  const resetQuery = () => {
+    setQuery("");
+  };
+
   return (
-    <AppLayout setActivePage={setActivePage}>
-      {activePage === "photos" && <PhotosContainer />}
+    <AppLayout setActivePage={setActivePage} resetQuery={resetQuery}>
+      {activePage === "photos" && (
+        <PhotosContainer query={query} setQuery={setQuery} />
+      )}
+      {activePage === "videos" && (
+        <VideosContainer query={query} setQuery={setQuery} />
+      )}
       {activePage === "favourite" && <FavouriteContainer />}
-      {activePage === "videos" && <VideosContainer />}
     </AppLayout>
   );
 }
