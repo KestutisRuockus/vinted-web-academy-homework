@@ -10,7 +10,8 @@ nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: relative;
+  position: sticky;
+  top: 0;
 }
 
 nav img {
@@ -38,6 +39,11 @@ nav ul li:hover {
   color: var(--text-primary);
   cursor: pointer;
   scale: 1.2;
+}
+
+nav ul li.active {
+  scale: 1.2;
+  color: var(--text-primary);
 }
 
 nav .icons {

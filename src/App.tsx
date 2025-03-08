@@ -15,7 +15,11 @@ function App() {
   };
 
   return (
-    <AppLayout setActivePage={setActivePage} resetQuery={resetQuery}>
+    <AppLayout
+      activePage={activePage}
+      setActivePage={setActivePage}
+      resetQuery={resetQuery}
+    >
       {activePage === "photos" && (
         <PhotosContainer query={query} setQuery={setQuery} />
       )}

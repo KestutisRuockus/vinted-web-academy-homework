@@ -6,14 +6,20 @@ const AppLayout = ({
   children,
   setActivePage,
   resetQuery,
+  activePage,
 }: {
   children: React.ReactNode;
   setActivePage: React.Dispatch<React.SetStateAction<ActivePage>>;
   resetQuery: () => void;
+  activePage: ActivePage;
 }) => {
   return (
     <>
-      <Navbar setActivePage={setActivePage} resetQuery={resetQuery} />
+      <Navbar
+        activePage={activePage}
+        setActivePage={setActivePage}
+        resetQuery={resetQuery}
+      />
       <h1 className="title">Assignment</h1>
       <main>{children}</main>
     </>

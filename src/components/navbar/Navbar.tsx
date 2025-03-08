@@ -46,9 +46,11 @@ const CloseIconComponent = () => {
 const Navbar = ({
   setActivePage,
   resetQuery,
+  activePage,
 }: {
   setActivePage: React.Dispatch<React.SetStateAction<ActivePage>>;
   resetQuery: () => void;
+  activePage: ActivePage;
 }) => {
   const [open, setOpen] = useState(false);
   return (
@@ -65,7 +67,11 @@ const Navbar = ({
             onClick={() => {
               setActivePage(navLink.component);
               resetQuery();
+              setOpen(false);
             }}
+            className={
+              activePage === navLink.name.toLowerCase() ? "active" : ""
+            }
           >
             {navLink.name}
           </li>
