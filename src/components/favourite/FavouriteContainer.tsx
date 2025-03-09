@@ -4,6 +4,7 @@ import { fetchPhotoById } from "../../utils/fetchPhotoById";
 import PhotoCard from "../photos/photoCard/PhotoCard";
 import VideoCard from "../videos/videoCard/VideoCard";
 import { fetchVideoById } from "../../utils/fetchVideoById";
+import { loadFromLocalStorage } from "../../utils/favouriteUtils";
 
 const FavouriteContainer = ({
   setModalData,
@@ -14,13 +15,9 @@ const FavouriteContainer = ({
   const [favouriteVideos, setFavouriteVideos] = useState<Video[] | []>([]);
 
   useEffect(() => {
-    const photoFromLocalStorage = JSON.parse(
-      localStorage.getItem("favourite-photos") || "[]"
-    );
+    const photoFromLocalStorage = loadFromLocalStorage("photo");
 
-    const videosFromLocalStorage = JSON.parse(
-      localStorage.getItem("favourite-videos") || "[]"
-    );
+    const videosFromLocalStorage = loadFromLocalStorage("video");
 
     if (!photoFromLocalStorage.length) return;
     if (!videosFromLocalStorage.length) return;

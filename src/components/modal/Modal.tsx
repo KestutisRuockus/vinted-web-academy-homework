@@ -1,5 +1,7 @@
+import { useEffect, useState } from "react";
 import { ModalProps, Photo, Video } from "../../types/types";
 import "./modal.css";
+import { isFavorited, toggleFavourite } from "../../utils/favouriteUtils";
 
 const isPhoto = (data: Photo | Video): data is Photo => {
   return (data as Photo).src !== undefined;
@@ -10,6 +12,25 @@ const isVideo = (data: Photo | Video): data is Video => {
 };
 
 const PhotoModal = ({ data, onClose }: ModalProps) => {
+  const [isFavourited, setIsFavourited] = useState(false);
+
+  const handleFavouriteClick = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    toggleFavourite(
+      e,
+      data.id,
+      isPhoto(data) ? data.avg_color : undefined,
+      "photo",
+      isFavourited,
+      setIsFavourited
+    );
+  };
+
+  useEffect(() => {
+    setIsFavourited(isFavorited(data.id, "photo"));
+  }, [data.id]);
+
   if (!isPhoto(data)) return null;
   return (
     <>
@@ -32,8 +53,8 @@ const PhotoModal = ({ data, onClose }: ModalProps) => {
         <h2>{data.photographer || "Unknown Photographer"}</h2>
         <p>{data.alt || "No description available"}</p>
         <div className="modal-buttons">
-          <button onClick={() => console.log(`Favourite btn clicked`)}>
-            "Favourite"
+          <button onClick={handleFavouriteClick}>
+            {isFavourited ? "Remove" : "Favourite"}
           </button>
           <button onClick={onClose}>Close</button>
         </div>
@@ -43,6 +64,25 @@ const PhotoModal = ({ data, onClose }: ModalProps) => {
 };
 
 const VideoModal = ({ data, onClose }: ModalProps) => {
+  const [isFavourited, setIsFavourited] = useState(false);
+
+  const handleFavouriteClick = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    toggleFavourite(
+      e,
+      data.id,
+      undefined,
+      "video",
+      isFavourited,
+      setIsFavourited
+    );
+  };
+
+  useEffect(() => {
+    setIsFavourited(isFavorited(data.id, "photo"));
+  }, [data.id]);
+
   if (!isVideo(data)) return null;
   return (
     <>
@@ -63,8 +103,8 @@ const VideoModal = ({ data, onClose }: ModalProps) => {
       </div>
       <div className="modal-details">
         <div className="modal-buttons">
-          <button onClick={() => console.log(`Favourite btn clicked`)}>
-            "Favourite"
+          <button onClick={handleFavouriteClick}>
+            {isFavourited ? "Remove" : "Favourite"}
           </button>
           <button onClick={onClose}>Close</button>
         </div>

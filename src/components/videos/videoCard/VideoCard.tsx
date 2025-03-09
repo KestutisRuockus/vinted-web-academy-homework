@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { VideoCardProps } from "../../../types/types";
 import "./videoCard.css";
 import SkeletonPhotoCard from "../../skeletonCard/SkeletonCard";
+import { isFavorited, toggleFavourite } from "../../../utils/favouriteUtils";
 
 const VideoCard = ({ video, onRemove, setModalData }: VideoCardProps) => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -21,54 +22,8 @@ const VideoCard = ({ video, onRemove, setModalData }: VideoCardProps) => {
     }
   };
 
-  const loadFromLocalStorage = () => {
-    const favouritePhotos = JSON.parse(
-      localStorage.getItem("favourite-videos") || "[]"
-    );
-    return favouritePhotos;
-  };
-
-  const saveToLocalStorage = () => {
-    const videoObj = {
-      id: video.id,
-    };
-
-    const favouriteVideos = loadFromLocalStorage();
-    favouriteVideos.push(videoObj);
-
-    localStorage.setItem("favourite-videos", JSON.stringify(favouriteVideos));
-  };
-
-  const removeFromLocalStorage = (videoId: number) => {
-    const favouriteVideos = loadFromLocalStorage();
-    const updatedVideos = favouriteVideos.filter(
-      (video: { id: string }) => Number(video.id) !== videoId
-    );
-    localStorage.setItem("favourite-videos", JSON.stringify(updatedVideos));
-  };
-
-  const toggleFavourite = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    e.stopPropagation();
-    if (isFavourited) {
-      removeFromLocalStorage(video.id);
-      onRemove?.(video.id);
-    } else {
-      saveToLocalStorage();
-    }
-    setIsFavourited(!isFavourited);
-  };
-
   useEffect(() => {
-    const favouriteVideos = loadFromLocalStorage();
-    if (
-      favouriteVideos.some(
-        (favVideo: { id: string }) => Number(favVideo.id) === video.id
-      )
-    ) {
-      setIsFavourited(true);
-    }
+    setIsFavourited(isFavorited(video.id, "video"));
     setLoading(false);
   }, [video.id]);
 
@@ -104,7 +59,20 @@ const VideoCard = ({ video, onRemove, setModalData }: VideoCardProps) => {
         </div>
       )}
       <div className="video-buttons">
-        <button onClick={toggleFavourite} className="video-favourite-button">
+        <button
+          onClick={(e) =>
+            toggleFavourite(
+              e,
+              video.id,
+              undefined,
+              "video",
+              isFavourited,
+              setIsFavourited,
+              onRemove
+            )
+          }
+          className="video-favourite-button"
+        >
           {isFavourited ? "Remove" : "Favourite"}
         </button>
         <button

@@ -2,61 +2,14 @@ import { useEffect, useState } from "react";
 import "./PhotoCard.css";
 import { PhotoCardProps } from "../../../types/types";
 import SkeletonPhotoCard from "../../skeletonCard/SkeletonCard";
+import { isFavorited, toggleFavourite } from "../../../utils/favouriteUtils";
 
 const PhotoCard = ({ photo, onRemove, setModalData }: PhotoCardProps) => {
   const [isFavourited, setIsFavourited] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const loadFromLocalStorage = () => {
-    const favouritePhotos = JSON.parse(
-      localStorage.getItem("favourite-photos") || "[]"
-    );
-    return favouritePhotos;
-  };
-
-  const saveToLocalStorage = () => {
-    const photoObj = {
-      id: photo.id,
-      avg_color: photo.avg_color,
-      type: "photo",
-    };
-
-    const favouritePhotos = loadFromLocalStorage();
-    favouritePhotos.push(photoObj);
-
-    localStorage.setItem("favourite-photos", JSON.stringify(favouritePhotos));
-  };
-
-  const removeFromLocalStorage = (photoId: number) => {
-    const favouritePhotos = loadFromLocalStorage();
-    const updatedPhotos = favouritePhotos.filter(
-      (photo: { id: string }) => Number(photo.id) !== photoId
-    );
-    localStorage.setItem("favourite-photos", JSON.stringify(updatedPhotos));
-  };
-
-  const toggleFavourite = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    e.stopPropagation();
-    if (isFavourited) {
-      removeFromLocalStorage(photo.id);
-      onRemove?.(photo.id);
-    } else {
-      saveToLocalStorage();
-    }
-    setIsFavourited(!isFavourited);
-  };
-
   useEffect(() => {
-    const favouritePhotos = loadFromLocalStorage();
-    if (
-      favouritePhotos.some(
-        (favPhoto: { id: string }) => Number(favPhoto.id) === photo.id
-      )
-    ) {
-      setIsFavourited(true);
-    }
+    setIsFavourited(isFavorited(photo.id, "photo"));
     setLoading(false);
   }, [photo.id]);
 
@@ -76,7 +29,20 @@ const PhotoCard = ({ photo, onRemove, setModalData }: PhotoCardProps) => {
         <p className="photo-title">{photo.alt || ""}</p>
         <div className="dividing-line"></div>
         <p className="author">{photo.photographer || "Unknown"}</p>
-        <button onClick={toggleFavourite} className="button">
+        <button
+          onClick={(e) =>
+            toggleFavourite(
+              e,
+              photo.id,
+              photo.avg_color,
+              "photo",
+              isFavourited,
+              setIsFavourited,
+              onRemove
+            )
+          }
+          className="button"
+        >
           {isFavourited ? "Remove" : "Favourite"}
         </button>
       </div>
