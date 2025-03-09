@@ -4,18 +4,18 @@ import { useFetchPhotos } from "../../../hooks/useFetchPhotos";
 import { useEffect, useState } from "react";
 import { useElementOnScreen } from "../../../hooks/useElementOnScreen";
 import SearchInput from "../../seacrh/SearchInput";
-import Modal from "../../modal/Modal";
 import { Photo, Video } from "../../../types/types";
 
 const PhotosContainer = ({
   query,
   setQuery,
+  setModalData,
 }: {
   query: string;
   setQuery: React.Dispatch<React.SetStateAction<string>>;
+  setModalData: React.Dispatch<React.SetStateAction<Photo | Video | null>>;
 }) => {
   const [page, setPage] = useState(1);
-  const [modalData, setModalData] = useState<Photo | Video | null>(null);
   const { photos, loading, hasMore } = useFetchPhotos({
     pageNumber: page,
     query,
@@ -27,10 +27,6 @@ const PhotosContainer = ({
     threshold: 0.2,
   });
 
-  const closeModal = () => {
-    setModalData(null);
-  };
-
   useEffect(() => {
     setPage(1);
   }, [query]);
@@ -41,18 +37,6 @@ const PhotosContainer = ({
     }
   }, [isVisible, hasMore]);
 
-  useEffect(() => {
-    if (modalData) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-
-    return () => {
-      document.body.style.overflow = "auto";
-    };
-  }, [modalData]);
-
   return (
     <>
       <SearchInput onSearch={setQuery} />
@@ -62,8 +46,6 @@ const PhotosContainer = ({
         ))}
         {loading && <div>Loading...</div>}
         <div ref={laodMoreRef} style={{ marginBottom: "50px" }}></div>
-
-        {modalData && <Modal data={modalData} onClose={closeModal} />}
       </div>
     </>
   );

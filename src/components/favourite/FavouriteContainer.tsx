@@ -4,12 +4,14 @@ import { fetchPhotoById } from "../../utils/fetchPhotoById";
 import PhotoCard from "../photos/photoCard/PhotoCard";
 import VideoCard from "../videos/videoCard/VideoCard";
 import { fetchVideoById } from "../../utils/fetchVideoById";
-import Modal from "../modal/Modal";
 
-const FavouriteContainer = () => {
+const FavouriteContainer = ({
+  setModalData,
+}: {
+  setModalData: React.Dispatch<React.SetStateAction<Photo | Video | null>>;
+}) => {
   const [favouritePhotos, setFavouritePhotos] = useState<Photo[] | []>([]);
   const [favouriteVideos, setFavouriteVideos] = useState<Video[] | []>([]);
-  const [modalData, setModalData] = useState<Photo | Video | null>(null);
 
   useEffect(() => {
     const photoFromLocalStorage = JSON.parse(
@@ -86,22 +88,6 @@ const FavouriteContainer = () => {
     );
   };
 
-  const closeModal = () => {
-    setModalData(null);
-  };
-
-  useEffect(() => {
-    if (modalData) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-
-    return () => {
-      document.body.style.overflow = "auto";
-    };
-  }, [modalData]);
-
   return (
     <div className="container">
       {favouritePhotos.map((photo) => (
@@ -120,8 +106,6 @@ const FavouriteContainer = () => {
           setModalData={setModalData}
         />
       ))}
-
-      {modalData && <Modal data={modalData} onClose={closeModal} />}
     </div>
   );
 };
