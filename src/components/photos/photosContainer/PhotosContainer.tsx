@@ -61,7 +61,7 @@ const PhotosContainer = ({
           <PhotoCard key={photo.id} photo={photo} setModalData={setModalData} />
         ))}
         {loading && <div>Loading...</div>}
-        <div ref={laodMoreRef}></div>
+        <div ref={laodMoreRef} style={{ marginBottom: "50px" }}></div>
 
         {modalData && <Modal data={modalData} onClose={closeModal} />}
       </div>

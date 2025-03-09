@@ -59,7 +59,7 @@ const VideosContainer = ({
           <VideoCard key={video.id} video={video} setModalData={setModalData} />
         ))}
         {loading && <div>Loading...</div>}
-        <div ref={laodMoreRef}></div>
+        <div ref={laodMoreRef} style={{ marginBottom: "50px" }}></div>
 
         {modalData && <Modal data={modalData} onClose={closeModal} />}
       </div>

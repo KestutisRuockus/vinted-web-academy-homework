@@ -28,7 +28,6 @@ const PhotoModal = ({ data, onClose }: ModalProps) => {
                (max-width: 1024px) 70vw, 
                60vw"
       />
-
       <div className="modal-details">
         <h2>{data.photographer || "Unknown Photographer"}</h2>
         <p>{data.alt || "No description available"}</p>
