@@ -23,6 +23,7 @@ export type Photo = {
 export type PhotoCardProps = {
   photo: Photo;
   onRemove?: (id: number) => void;
+  setModalData: React.Dispatch<React.SetStateAction<Photo | Video | null>>;
 };
 
 export type Video = {
@@ -30,12 +31,16 @@ export type Video = {
   duration: number;
   image: string;
   video_files: VideoFiles[];
-  video_pictures: VideoPictures;
+  video_pictures: VideoPictures[];
+  user: {
+    name: string;
+  };
 };
 
 export type VideoCardProps = {
   video: Video;
   onRemove?: (id: number) => void;
+  setModalData: React.Dispatch<React.SetStateAction<Video | Photo | null>>;
 };
 
 type VideoFiles = {
@@ -53,4 +58,9 @@ type VideoPictures = {
 
 export type SearchInputProps = {
   onSearch: (query: string) => void;
+};
+
+export type ModalProps = {
+  data: Photo | Video;
+  onClose: () => void;
 };

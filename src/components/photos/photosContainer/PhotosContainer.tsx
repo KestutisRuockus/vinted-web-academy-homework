@@ -4,6 +4,8 @@ import { useFetchPhotos } from "../../../hooks/useFetchPhotos";
 import { useEffect, useState } from "react";
 import { useElementOnScreen } from "../../../hooks/useElementOnScreen";
 import SearchInput from "../../seacrh/SearchInput";
+import Modal from "../../modal/Modal";
+import { Photo, Video } from "../../../types/types";
 
 const PhotosContainer = ({
   query,
@@ -13,6 +15,7 @@ const PhotosContainer = ({
   setQuery: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   const [page, setPage] = useState(1);
+  const [modalData, setModalData] = useState<Photo | Video | null>(null);
   const { photos, loading, hasMore } = useFetchPhotos({
     pageNumber: page,
     query,
@@ -24,6 +27,10 @@ const PhotosContainer = ({
     threshold: 0.2,
   });
 
+  const closeModal = () => {
+    setModalData(null);
+  };
+
   useEffect(() => {
     setPage(1);
   }, [query]);
@@ -34,15 +41,29 @@ const PhotosContainer = ({
     }
   }, [isVisible, hasMore]);
 
+  useEffect(() => {
+    if (modalData) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [modalData]);
+
   return (
     <>
       <SearchInput onSearch={setQuery} />
       <div className="container">
         {photos.map((photo) => (
-          <PhotoCard key={photo.id} photo={photo} />
+          <PhotoCard key={photo.id} photo={photo} setModalData={setModalData} />
         ))}
         {loading && <div>Loading...</div>}
         <div ref={laodMoreRef}></div>
+
+        {modalData && <Modal data={modalData} onClose={closeModal} />}
       </div>
     </>
   );

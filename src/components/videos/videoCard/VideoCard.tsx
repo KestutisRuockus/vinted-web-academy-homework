@@ -3,7 +3,7 @@ import { VideoCardProps } from "../../../types/types";
 import "./videoCard.css";
 import SkeletonPhotoCard from "../../skeletonCard/SkeletonCard";
 
-const VideoCard = ({ video, onRemove }: VideoCardProps) => {
+const VideoCard = ({ video, onRemove, setModalData }: VideoCardProps) => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isFavourited, setIsFavourited] = useState(false);
@@ -103,9 +103,20 @@ const VideoCard = ({ video, onRemove }: VideoCardProps) => {
           )}
         </div>
       )}
-      <button onClick={toggleFavourite} className="video-button">
-        {isFavourited ? "Remove" : "Favourite"}
-      </button>
+      <div className="video-buttons">
+        <button onClick={toggleFavourite} className="video-favourite-button">
+          {isFavourited ? "Remove" : "Favourite"}
+        </button>
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            setModalData(video);
+          }}
+          className="video-view-button"
+        >
+          Expand
+        </button>
+      </div>
     </div>
   );
 };

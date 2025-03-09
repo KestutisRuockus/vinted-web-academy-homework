@@ -3,7 +3,7 @@ import "./PhotoCard.css";
 import { PhotoCardProps } from "../../../types/types";
 import SkeletonPhotoCard from "../../skeletonCard/SkeletonCard";
 
-const PhotoCard = ({ photo, onRemove }: PhotoCardProps) => {
+const PhotoCard = ({ photo, onRemove, setModalData }: PhotoCardProps) => {
   const [isFavourited, setIsFavourited] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -35,7 +35,10 @@ const PhotoCard = ({ photo, onRemove }: PhotoCardProps) => {
     localStorage.setItem("favourite-photos", JSON.stringify(updatedPhotos));
   };
 
-  const toggleFavourite = () => {
+  const toggleFavourite = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.stopPropagation();
     if (isFavourited) {
       removeFromLocalStorage(photo.id);
       onRemove?.(photo.id);
@@ -58,7 +61,7 @@ const PhotoCard = ({ photo, onRemove }: PhotoCardProps) => {
   }, [photo.id]);
 
   return (
-    <div className="photo-card">
+    <div className="photo-card" onClick={() => setModalData(photo)}>
       {loading && <SkeletonPhotoCard />}
       <img
         src={photo.src?.original || ""}
